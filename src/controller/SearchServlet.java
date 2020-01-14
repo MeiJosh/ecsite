@@ -37,6 +37,9 @@ public class SearchServlet extends HttpServlet {
 		}//else so, action when the session is still countinueing
 //		//when session still keeps, display table set
 
+		SearchBean search = new SearchBean();
+		search.getString(a);
+
 
 
 		//when click detail, jump to product.jsp

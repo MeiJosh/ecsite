@@ -25,19 +25,33 @@ public class LoginServlet extends HttpServlet {
 				request.setCharacterEncoding("UTF-8");
 				response.setContentType("text/html;charset=UTF-8");
 
-
-				//初期 value
-				String initUserName = "goka";
-				String initPassWord = "goka0214";
-				System.out.println(initUserName);
-				System.out.println(initPassWord);
-
-				//入力されたnameとpass
+				//入力されたnameとpassを受け取る
 				String typedname = request.getParameter("username");
 				String typedpass = request.getParameter("password");
-				System.out.println(typedname);
-				System.out.println(typedpass);
 
+
+
+//servletでしたいこと
+				//loginbeanでデータベースから呼んできたlogin_cdとpwを初期値に設定
+				//入力されたものデータベースの内容がただしいか
+				//正しければ検索ページに飛ぶ
+				//正しくなければエラー文表示
+
+
+				//ということは、loginbeanではデータベースを呼ぶ作業-loginbean
+
+				//servletではbean(data)をインスタンス化
+				LoginBean lbean = new LoginBean();
+
+
+
+				//beanのデータを入力されたものと比べる
+			DataBean data = lbean.execute(typedname, typedpass);//need fix
+
+				//初期 value == database
+				String initUserName = data.getLogincd();
+				System.out.println(initUserName);
+				String initPassWord= data.getLoginpw();
 
 
 				//セッションの開始

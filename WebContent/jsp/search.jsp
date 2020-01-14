@@ -12,14 +12,20 @@
 <form action ="http://localhost:8080/shopsite/search" method="post">
 <h1>検索</h1>
 
-<input type="text" name="keyword">
+<input type="search" name="search">
 <br><br>
 カテゴリ
 <select name="category">
 <option value="0">選択してください</option>
 <option value="1">家電</option>
+<!-- queryの実行 -->
+
 <option value="2">パソコン用品</option>
+<!-- query2の実行 -->
+
 <option value="3">書籍</option>
+<!-- query3の実行 -->
+
 </select>
 
 <br><br>
