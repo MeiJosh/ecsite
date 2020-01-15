@@ -18,7 +18,7 @@ public class LoginBean implements Serializable {
 	//field variable
 		private final String url = "jdbc:mysql://localhost/ec";// 接続する場所を定義（URLとして)
 		private final 	String id = "root";// 接続する際のIDを定義
-		private final	String pass = "password";// 接続するIDのpasswordを定義
+		private final	String passwd = "password";// 接続するIDのpasswordを定義
 
 		// DBにアクセスする、した際に必要な部品を定義
 		// DBに接続する際に使用する部品。
@@ -30,7 +30,7 @@ public class LoginBean implements Serializable {
 		// SQLの実行結果を格納する箱
 		ResultSet rs= null;
 
-		public DataBean execute(String logincd, String loginpw){
+		public DataBean execute(String name, String pass){//ログイン処理するメソッド
 
 			DataBean data = new DataBean();//DataBeanの内容を呼ぶ
 
@@ -41,11 +41,11 @@ public class LoginBean implements Serializable {
 			// 引数（url,id,pass）を元に、実際にDBに接続する。
 			// connの代入結果としては、
 			//接続が成功したか失敗したかの結果が格納される。
-			cnct = DriverManager.getConnection(url,id,pass);
+			cnct = DriverManager.getConnection(url,id,passwd);
 			System.out.println("DBMSとの接続完了");//ここまできてる
 
 			//queryにsql内のコマンドを入れる
-			String query = "select login_cd, login_pw from user where login_cd=(?) and login_pw=(?); ";
+			String query = "select * from user where login_cd = ? and login_pw = ?;";
 			System.out.println(query);//ここまできてる
 
 			//プリコンパイル
@@ -57,29 +57,19 @@ public class LoginBean implements Serializable {
 
 			//pstにqueryの内容を入れる
 			pst = cnct.prepareStatement(query);
-			System.out.println(pst);
 
-			pst.setString(1, data.getLogincd());//databaseの中の名前
-			pst.setString(2, data.getLoginpw());//databaseの中のパス
+
+			pst.setString(1, name);//入力されたものをデータベースに入れる
+			pst.setString(2, pass);//
 
 			//pstを実行する()の中はいらない
 			rs=pst.executeQuery();
-
-			//while (until this inside is not true, loop)
-
 			//while (table user till end)
-			while(rs.next()) {
-				String cd = rs.getString(logincd);
-				String pw = rs.getString(loginpw);
-				data.setLogincd(cd);
-				data.setLoginpw(pw);
+			while(rs.next()) {//rsがなくなるまで　下の処理を繰り返す
+				data.setLogincd(rs.getString("login_cd"));//データ取り出した
 
-				System.out.println(cd);
-
-			}
-
-
-
+				data.setLoginpw(rs.getString("login_pw"));
+				}
 
 
 		} catch (ClassNotFoundException e) {

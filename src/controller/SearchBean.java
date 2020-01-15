@@ -2,83 +2,106 @@ package controller;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 
 public class SearchBean {
 
-	public static void main(String[] args) {
-		// TODO 自動生成されたメソッド・スタブ
+	//Logic Bean の役割
+	//search beanではデータベースを呼ぶ作業
+	//db接続
+	//サーブレットでとりだす
+
+	//field
+	public ArrayList<Integer> listcd = new ArrayList<Integer>();//Arraylistの定義
+	public ArrayList<String> listnm = new ArrayList<String>();
+	public ArrayList<Integer> listpr = new ArrayList<Integer>();
+
+	private final String url = "jdbc:mysql://localhost/ec";// 接続する場所を定義（URLとして)
+	private final 	String id = "root";// 接続する際のIDを定義
+	private final	String passwd = "password";// 接続するIDのpasswordを定義
+
+	// DBにアクセスする、した際に必要な部品を定義
+	// DBに接続する際に使用する部品。
+	//(接続失敗時にSQLExceptionを投げる）
+	Connection cnct=null;
+	// SQLを実行する際に使う部品。
+	PreparedStatement pst=null;
+	Statement st= null;
+
+	// SQLの実行結果を格納する箱
+	ResultSet rs= null;
+
+	public ProductBean execute(int catid){//ログイン処理するメソッド
+
+		ProductBean pbean = new ProductBean();//ProductBeanの内容を呼ぶ
+		//int cid= Integer.parseInt(catid);
 		try {
 			// JDBCドライバ(MYSQL用)を登録する
 			Class.forName("com.mysql.jdbc.Driver");
 			System.out.println("JDBCドライバの登録終了");
-			} catch (ClassNotFoundException ex) {
-			// 例外処理
-			ex.printStackTrace();
-		}
-
-		// DBに接続するために必要な情報を変数定義している。
-					// 接続する場所を定義（URLとして)
-		String url = "jdbc:mysql://localhost/ec";
-					// 接続する際のIDを定義
-		String id = "root";
-					// 接続する際のパスワードを定義
-		String pass = "password";
-		// DBにアクセスする、した際に必要な部品を定義
-		// DBに接続する際に使用する部品。
-		//(接続失敗時にSQLExceptionを投げる）
-		Connection cnct=null;
-		// SQLを実行する際に使う部品。
-		Statement stmt=null;
-
-		// SQLの実行結果を格納する箱
-		ResultSet rs= null;
-		ResultSet rs2= null;
-		ResultSet rs3= null;
-
-
-		try {
 			// 引数（url,id,pass）を元に、実際にDBに接続する。
 			// connの代入結果としては、
 			//接続が成功したか失敗したかの結果が格納される。
-			cnct = DriverManager.getConnection(url,id,pass);
-			System.out.println("DBMSとの接続完了");
-			// 接続に成功した場合は、stmtに接続情報を設定する。
-			stmt = cnct.createStatement();
+			cnct = DriverManager.getConnection(url,id,passwd);
+			System.out.println("DBMSとの接続完了");//ここまできてる
 
-			String query = "select * from product where cat_id =1;";//家電をセレクトされた場合
-			//String query2 ="select * from category where cat_id =2;";//pc parts
-//			String query3 ="select * from category where cat_id =3;";//book
-			//カテゴリで選択ー検索されたら家電の表を表示したい
-			System.out.println(query);
-			rs = stmt.executeQuery(query);
+			st = cnct.createStatement();
 
-			if (rs.next()) {//if文でもし次の行にデータがあるなら←条件。現在地　コラム名の行
-				String a = rs.getString("pro_name");//queryを実行した中で該当場所"pro_name"
-				String b = rs.getString("pro_price");//queryを実行した中で該当場所"pro_price"
-				System.out.println(a);//ここを表示
-				System.out.println(b);//ここを表示
-				return;
+			String query = "select*from product;";
+			System.out.println(query);//ここまできてる
+
+			//pst = cnct.prepareStatement(query);
+			//pst.setString(1, catid);//入力されたものをデータベースに入れる
+			rs= st.executeQuery(query);
+			//rs=st.executeQuery(query);
+
+//catid が 0 のとき(catid == 0)
+			if(catid == 0) {
+			while(rs.next()) {
+				//rs.getInt("pro_cd");//getterメソッド・・・現在行の各フィールドの値を取得する
+				listcd.add(rs.getInt("pro_cd"));//arraylistに入れる
+
+				listnm.add(rs.getString("pro_name"));
+
+				listpr.add(rs.getInt("pro_price"));
+				}
+			}else {//(catid != 0), 1,2,3,4,,,,,
+
+				while(rs.next()) {//rsがなくなるまで　下の処理を繰り返す
+
+				listcd.add(rs.getInt("pro_cd"));//arraylistに入れる
+
+				listnm.add(rs.getString("pro_name"));
+
+				listpr.add(rs.getInt("pro_price"));
+				}
 			}
 
+		} catch (ClassNotFoundException e) {
+			// 例外処理
+			e.printStackTrace();
 
 		}catch (SQLException ex) {
 			ex.printStackTrace();
-		}finally {// finallyはエラーの発生有無にかかわらず実行される。
+		}finally {
 			try {
 				// 各部品はDBの処理が終わったら閉じなければならない。
 				// 閉じる順番も大切!!
 				// rsをcloseする。
+				if (st!=null) st.close();
+				//if (pst!=null) pst.close();
 				if (rs!=null) rs.close();
-				if (rs2!=null) rs2.close();
-				if (rs3!=null) rs3.close();
-				// stmtをcloseする。
-				if (stmt!=null) stmt.close();
+
 				// connectionをcloseする。
 				if (cnct!=null) cnct.close();
 			}catch(Exception ex) {}
+		}
+		return pbean;//この内容をpbeanにて使用可能にする
 	}
-	}
+
+
 }

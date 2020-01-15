@@ -29,7 +29,7 @@ public class LoginServlet extends HttpServlet {
 				String typedname = request.getParameter("username");
 				String typedpass = request.getParameter("password");
 
-
+//LoginBean で処理中
 
 //servletでしたいこと
 				//loginbeanでデータベースから呼んできたlogin_cdとpwを初期値に設定
@@ -37,29 +37,24 @@ public class LoginServlet extends HttpServlet {
 				//正しければ検索ページに飛ぶ
 				//正しくなければエラー文表示
 
-
+if(typedname==null) {
+	request.setAttribute("noentry", "名前またはパスワードを入力してください");//noentry message
+	RequestDispatcher rd = request.getRequestDispatcher("/jsp/login.jsp");
+	rd.forward(request, response);
+}
 				//ということは、loginbeanではデータベースを呼ぶ作業-loginbean
 
 				//servletではbean(data)をインスタンス化
 				LoginBean lbean = new LoginBean();
 
-
-
 				//beanのデータを入力されたものと比べる
-			DataBean data = lbean.execute(typedname, typedpass);//need fix
-
-				//初期 value == database
-				String initUserName = data.getLogincd();
-				System.out.println(initUserName);
-				String initPassWord= data.getLoginpw();
-
-
-				//セッションの開始
-				HttpSession session = request.getSession(true);
-
+				DataBean data =lbean.execute(typedname, typedpass);
 
 				//入力されたnameとpassが初期化パラメータと等しいか検証
-				if(typedname.equals(initUserName) && typedpass.equals(initPassWord)) {
+				if(typedname.equals(data.getLogincd()) && typedpass.equals(data.getLoginpw())) {
+
+					//セッションの開始
+					HttpSession session = request.getSession(true);
 					System.out.println("ok");
 
 					//等しければ
@@ -72,23 +67,24 @@ public class LoginServlet extends HttpServlet {
 					//stop right here when action is activate
 					return;
 
-				}else if ((!typedname.equals(initUserName) && !typedpass.equals(initPassWord))) {
+//				}else{(!typedname.equals(data.toString()) && !typedpass.equals(data.toString() {
 				//===when session does not begin, request to show data
 
 				//put data(error msg)
-				request.setAttribute("errormsg", "名前またはパスワードが一致しません");//msg
+				}else{
+					request.setAttribute("errormsg", "名前またはパスワードが一致しません");//msg
 
 				//back to login.jsp
 				//and show error massage
 				RequestDispatcher rd = request.getRequestDispatcher("/jsp/login.jsp");
 				rd.forward(request, response);
 				return;
-
-				}else {
-				request.setAttribute("noentry", "名前またはパスワードを入力してください");//noentry message
-				RequestDispatcher rd = request.getRequestDispatcher("/jsp/login.jsp");
-				rd.forward(request, response);
 				}
+//				}else {
+//				request.setAttribute("noentry", "名前またはパスワードを入力してください");//noentry message
+//				RequestDispatcher rd = request.getRequestDispatcher("/jsp/login.jsp");
+//				rd.forward(request, response);
+//				}
 
 
 	}
