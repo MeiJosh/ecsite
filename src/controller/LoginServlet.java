@@ -1,6 +1,7 @@
 package controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -61,6 +62,21 @@ if(typedname==null) {
 					//action below==ok, login successfully
 					//jump to search.jsp
 					//session.setAttribute("loginUser", true);
+					CateBean ctbean = new CateBean();
+					ArrayList<CateBean> listcategory = new ArrayList<CateBean>();
+					//getしたcat_idをsearch におくる
+					SearchJdbc sjdbc = new SearchJdbc();;//search bean を使用できるようにした
+					sjdbc.catematch(session);
+					ArrayList<String> b = (ArrayList<String>)session.getAttribute("cate");
+
+//					b.get(1);
+//					b.get(2);
+					System.out.println(	b.get(0));
+
+
+					session.setAttribute("catname", listcategory );
+
+					System.out.println(listcategory);
 					RequestDispatcher rd = request.getRequestDispatcher("/jsp/search.jsp");
 					rd.forward(request, response);
 

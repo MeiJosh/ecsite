@@ -4,19 +4,11 @@ import java.io.Serializable;
 
 public class ProductBean implements Serializable {
 
-	private int catid;
 
 	private int procd;
 	private String proname;
 	private int proprice;
 
-
-	public int getCatid() {
-		return catid;
-	}
-	public void setCatid(int i) {
-		this.catid = i;
-	}
 
 	public int getProcd() {
 		return procd;
@@ -36,7 +28,6 @@ public class ProductBean implements Serializable {
 	public void setProprice(int i) {
 		this.proprice = i;
 	}
-
 
 
 }
