@@ -63,20 +63,20 @@ if(typedname==null) {
 					//jump to search.jsp
 					//session.setAttribute("loginUser", true);
 					CateBean ctbean = new CateBean();
-					ArrayList<CateBean> listcategory = new ArrayList<CateBean>();
+					//ArrayList<CateBean> listcategory = new ArrayList<CateBean>();
 					//getしたcat_idをsearch におくる
 					SearchJdbc sjdbc = new SearchJdbc();;//search bean を使用できるようにした
 					sjdbc.catematch(session);
-					ArrayList<String> b = (ArrayList<String>)session.getAttribute("cate");
+					ArrayList<CateBean> b = (ArrayList<CateBean>)session.getAttribute("cate");
 
 //					b.get(1);
 //					b.get(2);
 					System.out.println(	b.get(0));
 
 
-					session.setAttribute("catname", listcategory );
+					session.setAttribute("cate", b );
 
-					System.out.println(listcategory);
+					//System.out.println(listcategory);
 					RequestDispatcher rd = request.getRequestDispatcher("/jsp/search.jsp");
 					rd.forward(request, response);
 

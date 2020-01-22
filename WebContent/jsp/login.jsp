@@ -16,8 +16,8 @@
 <input type = "text" name = "username"></div>
 <div>password
 <input type ="password" name="password"></div>
-<dir>
-<input type ="submit" value="LOGIN"></dir>
+<div>
+<input type ="submit" value="LOGIN"></div>
 
 
 </form>

@@ -7,13 +7,17 @@
     <%@page import="java.util.*" %>
     <%@page import="controller.*" %>
 
-    <%ProductBean pbean = new ProductBean();
-    CateBean ctbean = new CateBean();
-    ArrayList<ProductBean> listproduct = new ArrayList<ProductBean>();
-    listproduct = (ArrayList<ProductBean>)session.getAttribute("product");
-    ArrayList<CateBean> listcategory = new ArrayList<CateBean>();
-    listcategory = (ArrayList<CateBean>)session.getAttribute("category");
-    %>
+    <%CateBean ctbean = new CateBean();
+    LoginServlet login = new LoginServlet();
+    ProductBean pbean = new ProductBean();//ProductBeanの内容を呼ぶ
+
+
+    ArrayList<CateBean> a = (ArrayList<CateBean>)session.getAttribute("cate");
+    ArrayList<ProductBean> pd = (ArrayList<ProductBean>)session.getAttribute("pdt");
+
+
+
+  %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -21,44 +25,55 @@
 
 </head>
 <body>
-
-<h1>検索結果</h1>
 <div align="center">
+<h1>検索結果</h1>
+
 <form action ="http://localhost:8080/shopsite/search" method="post">
 
 <input type="text" name="keyword">
 <br><br>
 カテゴリ
 <select name="category">
-<option selected></option>
+<option selected>選択してください</option>
 
 <!-- for statementでselectのプルダウンとcat_idを一致させる -->
-<% for (int i = 0; i<listcategory.size(); i++){%>
-<%ctbean = listcategory.get(i); %>
-<option value ="<%=ctbean.getCatid() %>"><%=ctbean.getCatname()%>
-</option>
+<% for (int i = 0; i<a.size(); i++){%>
+<%ctbean = a.get(i); %>
+<option value ="<%=ctbean.getCatid()%>"><%=ctbean.getCatname()%></option>
 <%} %>
 
 </select>
-
 <br><br>
 <input type="submit" value="検索">
 </form>
 </div>
-
+<br>
 <div>
 
-<table>
+
+<form  action ="http://localhost:8080/shopsite/product" method="post">
+<table border="1" width="500" align = "center" >
 <tr>
 <th>商品名</th>
 <th>価格</th>
 <th>詳細ボタン</th>
 </tr>
 
-<%for (int i = 0; i<listproduct.size(); i++){ %>
-<%pbean =listproduct.get(i); %>
+
+<%for (int j = 0; j < pd.size(); j++){ %>
+<% pbean = pd.get(j); %>
+
+<tr>
+<td><%=pbean.getProname() %></td>
+<td>&yen;<%=pbean.getProprice()%></td>
+<td align = "center">
+<input type = "submit" name="productcode" value ="<%=pbean.getProcd()%>"></td>
+</tr>
 <%} %>
+
+
 </table>
+</form>
 </div>
 
 </body>

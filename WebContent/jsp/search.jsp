@@ -10,7 +10,9 @@
     <%CateBean ctbean = new CateBean();
     LoginServlet login = new LoginServlet();
     ArrayList<CateBean> listcategory = new ArrayList<CateBean>();
-    ArrayList<String> a = (ArrayList<String>)session.getAttribute("cate");
+    ArrayList<CateBean> a = (ArrayList<CateBean>)session.getAttribute("cate");
+    String er = (String)request.getAttribute("error");
+    //ctbean = a.get(i)
   %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -24,6 +26,11 @@
 
 <div align="center">
 <form action ="http://localhost:8080/shopsite/search" method="post">
+
+<%if(er!=null){%>
+<%=er %>
+<%} %><br><br>
+<br><br>
 <h1>検索</h1>
 
 <input type="text" name="keyword">
@@ -34,8 +41,8 @@
 
 <!-- for statementでselectのプルダウンとcat_idを一致させる -->
 <% for (int i = 0; i<a.size(); i++){%>
-
-<option value ="<%=a.get(i)%>"><%=a.get(i)%></option>
+<%ctbean = a.get(i); %>
+<option value ="<%=ctbean.getCatid()%>"><%=ctbean.getCatname()%></option>
 <%} %>
 
 </select>
@@ -44,7 +51,6 @@
 <input type="submit" value="検索">
 </form>
 </div>
-
 
 </body>
 </html>
