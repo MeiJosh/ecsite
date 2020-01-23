@@ -258,7 +258,7 @@ public ArrayList<DetailBean> goproduct(String procd){//商品紹介
 
 public ArrayList<CalcRsBean> gocart(String procd){//カートの商品名と価格
 
-	ArrayList<CalcRsBean> goca = new ArrayList<CalcRsBean>();
+	ArrayList<CalcRsBean> cartadd = new ArrayList<CalcRsBean>();
 	//CalcRsBean calc = new CalcRsBean();
 
 	try {
@@ -286,21 +286,37 @@ public ArrayList<CalcRsBean> gocart(String procd){//カートの商品名と価�
 
 
 		while(rs.next()) {
-			CalcRsBean clcbean = new CalcRsBean();//CalcRsBeanの内容を呼ぶ
+			Cart cartjava = new Cart();
+			CalcRsBean crb = new CalcRsBean();//リストを入れたいbean
+
+			crb.setProname(rs.getString("pro_name"));//product
+			crb.setPrice(rs.getInt("pro_price"));
+			crb.setQuantity(cartjava.getInitParameter("quantity"));//問題発生
 
 
-			clcbean.setProname(rs.getString("pro_name"));
-			System.out.println(clcbean.getProname());
-			clcbean.setPrice(rs.getInt("pro_price"));
-			System.out.println(clcbean.getPrice());
-
-			goca.add(clcbean);//add the price data on ArrayList
-
+			cartadd.add(crb);
 		}
-		CalcRsBean cp = new CalcRsBean();//保存された状態のbeanを入れる入れ物を作った
-		cp=goca.get(0);//pにリストの0番目の要素を入れた
-		System.out.println(cp.getProname());//出力
-//		.setAttribute("cartadd", cp);
+
+			CalcRsBean crb2 = new CalcRsBean();
+			crb2 = cartadd.get(0);
+			System.out.print(crb2.getProname()+crb2.getQuantity()+crb2.getPrice()+"出力１が出てる");
+			//session.setAttribute("cartadd", cartadd);
+
+//			CalcRsBean clcbean = new CalcRsBean();//CalcRsBeanの内容を呼ぶ
+//
+//
+//			clcbean.setProname(rs.getString("pro_name"));
+//			System.out.println(clcbean.getProname());
+//			clcbean.setPrice(rs.getInt("pro_price"));
+//			System.out.println(clcbean.getPrice());
+//
+//			goca.add(clcbean);//add the price data on ArrayList
+
+//		}
+//		CalcRsBean cp = new CalcRsBean();//保存された状態のbeanを入れる入れ物を作った
+//		cp=goca.get(0);//pにリストの0番目の要素を入れた
+//		System.out.println(cp.getProname());//出力
+////		.setAttribute("cartadd", cp);
 
 
 
@@ -323,7 +339,7 @@ public ArrayList<CalcRsBean> gocart(String procd){//カートの商品名と価�
 			if (cnct!=null) cnct.close();
 		}catch(Exception ex) {}
 	}
-	return goca;
+	return cartadd ;
 }//end カート
 
 }//end class

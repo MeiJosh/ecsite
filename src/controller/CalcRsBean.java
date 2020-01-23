@@ -4,14 +4,15 @@ import java.io.Serializable;
 
 public class CalcRsBean implements Serializable {
 
-	private double price;
+	private int price;
 	private String proname;
+	private String quantity;
 
-	public double getPrice() {
+	public int getPrice() {
 		return price;
 	}
 
-	public void setPrice(double price) {
+	public void setPrice(int price) {
 		this.price = price;
 	}
 
@@ -21,6 +22,14 @@ public class CalcRsBean implements Serializable {
 
 	public void setProname(String proname) {
 		this.proname = proname;
+	}
+
+	public String getQuantity() {
+		return quantity;
+	}
+
+	public void setQuantity(String quantity) {
+		this.quantity= (quantity);
 	}
 
 

@@ -49,28 +49,47 @@ public class Cart extends HttpServlet {
 		HttpSession session = request.getSession(false);
 
 		ArrayList<DetailBean> dblist = (ArrayList<DetailBean>)session.getAttribute("detail");
+		//詳細リスト呼んだ
 		DetailBean db = new DetailBean();
+		//詳細が入ってるbean呼んだ
 		db = dblist.get(0);
+		//詳細リストのゼロ番目に入っているものを指定
 
 		System.out.println(db.getProname());
+		//ゼロ番目の中の商品名を呼んだはず
 
 		SearchJdbc sjdbc = new SearchJdbc();
+		//JDBCアクセスした
+		sjdbc.goproduct(procd);
+		//JDBCクラスの中にある商品紹介で使うメソッドを呼んだ
 
-		DetailBean dt= new DetailBean();
-		ArrayList<DetailBean> dlist = new ArrayList<DetailBean>();
-
-		if(session != null) {
-
-			CalcRsBean crb = new  CalcRsBean();
-			//			 double price = crb.getPrice();
-			//System.out.println(price+"呼んできたpriceの表示");
-
-			ArrayList<CalcRsBean> addcart = new ArrayList<CalcRsBean>();//入れ物用意した
-			addcart = (ArrayList<CalcRsBean>) session.getAttribute("calc");//list の呼び出し
-			System.out.println(addcart.get(0));
+		if(session != null) {//もしセッションが切れていなければ
 
 
+//			for(int count=0; count<4; count++)
 
+//			if(count < 0){
+				ArrayList<CalcRsBean> cartadd = sjdbc.gocart(procd);
+				CalcRsBean crb2 = new CalcRsBean();
+				crb2 = cartadd.get(0);
+				System.out.print(crb2.getProname()+crb2.getQuantity()+crb2.getPrice()+"出力１が出てる");
+				session.setAttribute("cartadd", cartadd);
+
+//			}else {
+//				session.getAttribute("cartadd");
+//				ArrayList<CalcRsBean> cartadd = sjdbc.gocart(procd);
+//				CalcRsBean crb = new CalcRsBean();//リストを入れたいbean
+//				DetailBean dbean = new DetailBean();//リストの要素を呼ぶbean
+//				dbean.getProname();//product
+//				dbean.getProprice();
+//				crb.setQuantity(quant);
+//
+//				cartadd.add(crb);//上3行をリストに入れたい
+//				System.out.print(cartadd.get(0)+"出力2が出てる");//数量はリストに入ってる
+//				session.setAttribute("cartadd", cartadd);
+			//}
+
+			//getParameterでもらった数量をカートに送る
 			session.setAttribute("quantity", quant);
 			System.out.println("数量:"+quant+"の表示しようとしてる");//ここまでok
 			//			RequestDispatcher rd = request.getRequestDispatcher("jsp/cart.jsp");
@@ -84,13 +103,13 @@ public class Cart extends HttpServlet {
 			}else {//カートへであれば
 				RequestDispatcher rd2 = request.getRequestDispatcher("jsp/cart.jsp");
 				rd2.forward(request, response);//can jump to cart jsp ok
-
-				if(addcart == null) {
-					addcart.add(quant);
-					addcart.addAll(sjdbc.gocart(procd));//リストにaddして
-					System.out.println(addcart.get(0));
-					session.setAttribute("addcart", addcart);//sessionに送った
-				}
+				//
+				//				if(addcart == null) {
+				//					addcart.add(quant);
+				//					addcart.addAll(sjdbc.gocart(procd));//リストにaddして
+				//					System.out.println(addcart.get(0));
+				//					session.setAttribute("addcart", addcart);//sessionに送った
+				//				}
 
 			}//if addcart end
 

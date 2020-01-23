@@ -41,9 +41,9 @@
 </tr>
 <!-- for statement -->
 <%for (int j = 0; j < goca.size(); j++){ %>
-<% calc = goca.get(j); %>
+<% db = gopd.get(j); %>
 <tr>
-<td><%=calc.getProname() %></td><td>&yen;<%=calc.getPrice() %></td><td><%= times %></td>
+<td><%=db.getProname() %></td><td>&yen;<%=db.getProprice() %></td><td><%= times %></td>
 </tr>
 <%} %>
 <!-- end for statement -->
@@ -53,10 +53,10 @@
 <td colspan=2 align="center">消費税</td>
 <td><!-- for statement -->&yen;
 <%for (int k =0; k<gopd.size(); k++){%>
-<%=sumtax = (calc.getPrice()) * taxrate * times%></td></tr>
+<%=sumtax = (db.getProprice()) * taxrate * times%></td></tr>
 <tr>
 <td colspan=2 align="center">合計金額</td><td>&yen;
-<%= totalsum=times*(sumtax+(calc.getPrice()))%></td>
+<%= totalsum=times*(sumtax+(db.getProprice()))%></td>
 </tr>
 <%} %>
 </table>

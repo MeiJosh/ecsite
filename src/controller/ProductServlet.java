@@ -68,9 +68,9 @@ public class ProductServlet extends HttpServlet {
 					RequestDispatcher rd = request.getRequestDispatcher("jsp/product.jsp");
 					rd.forward(request, response);
 
-					ArrayList<CalcRsBean> goca = sjdbc.gocart(procd);
-					System.out.println(goca +"を出したい send from cart servlet");
-					session.setAttribute("calc", goca);//ok
+//					ArrayList<CalcRsBean> goca = sjdbc.gocart(procd);
+//					System.out.println(goca +"を出したい send from cart servlet");
+//					session.setAttribute("calc", goca);//ok
 
 
 					System.out.println("ProductServlet終了");
