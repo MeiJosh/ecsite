@@ -15,7 +15,7 @@ import javax.servlet.http.HttpSession;
  */
 public class ProductServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-
+int count = 0;
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
@@ -45,7 +45,14 @@ public class ProductServlet extends HttpServlet {
 			//	System.out.println("jdbc 呼び出した");
 
 				//ProductBean pb = new ProductBean();
-				if (session != null) {
+				if (session == null) {
+					session.invalidate();
+
+					RequestDispatcher rd4 = request.getRequestDispatcher("jsp/login.jsp");
+					rd4.forward(request, response);
+					return;
+
+				}else {
 
 					CateBean ct = new CateBean();
 					ArrayList<CateBean> acl = (ArrayList<CateBean>)session.getAttribute("cate");
@@ -57,20 +64,34 @@ public class ProductServlet extends HttpServlet {
 					//DetailBean db = new DetailBean();
 					//リストの呼び出し
 					ArrayList<DetailBean> dp = sjdbc.goproduct(procd);
-			//		System.out.println("リスト呼んでます");
 
-//					db=dp.get(0);
-//					System.out.println(db.getMessage()+"sending list from ProductServlet ");
+					ArrayList<CartBean> cartadd = new ArrayList<CartBean>();
+					System.out.println(count);
+					if(count < 0){
 
-					//send the list to session
-					//session.setAttribute("detail", dp);
+					//.gocart(procd);
+					CartBean crb = new CartBean();
+					cartadd =(ArrayList<CartBean>)session.getAttribute("cartadd");
+					}
+					count++;//sessionのカウントを1増やす
+					DetailBean dbean = new DetailBean();//リストの要素を呼ぶbean
+					dbean = dp.get(0);//0番目の要素
+					int Price = dbean.getProprice();
+
+					//カート画面に必要なデータをリストに格納する
+					CartBean cb = new CartBean();
+					cb.setCd(dbean.getProcd());
+					cb.setName(dbean.getProname());
+					cb.setPrice(Price);//要素を入れる
+					cb.setQuantity(quantity);
+					crb2 = cartadd.get(0);
+					System.out.print(crb2.getName()+crb2.getQuantity()+crb2.getPrice()+"出力１が出てる");
+					session.setAttribute("cartadd", cartadd);
+
 					session.setAttribute("detail", dp);
 					RequestDispatcher rd = request.getRequestDispatcher("jsp/product.jsp");
 					rd.forward(request, response);
 
-//					ArrayList<CalcRsBean> goca = sjdbc.gocart(procd);
-//					System.out.println(goca +"を出したい send from cart servlet");
-//					session.setAttribute("calc", goca);//ok
 
 
 					System.out.println("ProductServlet終了");

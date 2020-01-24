@@ -256,9 +256,9 @@ public ArrayList<DetailBean> goproduct(String procd){//商品紹介
 	return gopd;
 }//商品紹介
 
-public ArrayList<CalcRsBean> gocart(String procd){//カートの商品名と価格
+public ArrayList<CartBean> gocart(String procd){//カートの商品名と価格
 
-	ArrayList<CalcRsBean> cartadd = new ArrayList<CalcRsBean>();
+	ArrayList<CartBean> cartadd = new ArrayList<CartBean>();
 	//CalcRsBean calc = new CalcRsBean();
 
 	try {
@@ -284,22 +284,24 @@ public ArrayList<CalcRsBean> gocart(String procd){//カートの商品名と価�
 		rs=pst.executeQuery();
 
 
-
+//
 		while(rs.next()) {
-			Cart cartjava = new Cart();
-			CalcRsBean crb = new CalcRsBean();//リストを入れたいbean
+//			Cart cartjava = new Cart();
+			CartBean crb = new CartBean();//リストを入れたいbean
+//			String quant = crb.getQuantity();
+//			System.out.println(quant);
 
-			crb.setProname(rs.getString("pro_name"));//product
-			crb.setPrice(rs.getInt("pro_price"));
-			crb.setQuantity(cartjava.getInitParameter("quantity"));//問題発生
+			crb.setName(rs.getString("pro_name"));//product
+			crb.setPrice(rs.getString("pro_price"));
+		//	crb.setQuantity(rs.getString(quant));//問題発生
 
 
 			cartadd.add(crb);
 		}
 
-			CalcRsBean crb2 = new CalcRsBean();
+			CartBean crb2 = new CartBean();
 			crb2 = cartadd.get(0);
-			System.out.print(crb2.getProname()+crb2.getQuantity()+crb2.getPrice()+"出力１が出てる");
+			System.out.print(crb2.getName()+crb2.getPrice()+"出力１が出てる");
 			//session.setAttribute("cartadd", cartadd);
 
 //			CalcRsBean clcbean = new CalcRsBean();//CalcRsBeanの内容を呼ぶ

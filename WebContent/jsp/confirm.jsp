@@ -9,8 +9,8 @@
     DetailBean db = new DetailBean();
     ArrayList<DetailBean> gopd = (ArrayList<DetailBean>)session.getAttribute("detail");
 
-    CalcRsBean calc = new CalcRsBean();
-    ArrayList<CalcRsBean> goca = (ArrayList<CalcRsBean>)session.getAttribute("calc");
+    CartBean calc = new CartBean();
+    ArrayList<CartBean> goca = (ArrayList<CartBean>)session.getAttribute("calc");
 
 
     String quant = (String)session.getAttribute("quantity");
@@ -40,7 +40,7 @@
 <th>数量</th>
 </tr>
 <!-- for statement -->
-<%for (int j = 0; j < goca.size(); j++){ %>
+<%for (int j = 0; j < gopd.size(); j++){ %>
 <% db = gopd.get(j); %>
 <tr>
 <td><%=db.getProname() %></td><td>&yen;<%=db.getProprice() %></td><td><%= times %></td>

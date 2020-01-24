@@ -8,8 +8,8 @@
     DetailBean db = new DetailBean();//入ってるのproname,catname,price,stock#,message
     ArrayList<DetailBean> gopd = (ArrayList<DetailBean>)session.getAttribute("detail");
 
-    CalcRsBean calc = new CalcRsBean();//入ってるのproname,price,
-    ArrayList<CalcRsBean> goca = (ArrayList<CalcRsBean>)session.getAttribute("calc");
+    CartBean calc = new CartBean();//入ってるのproname,price,
+    ArrayList<CartBean> goca = (ArrayList<CartBean>)session.getAttribute("calc");
 
   	//入ってるのproname,price,proname,catname,price,stock#,message
     ArrayList<DetailBean> cartadd =(ArrayList<DetailBean>)session.getAttribute("cartadd");
@@ -43,7 +43,7 @@
 <th>数量</th>
 </tr>
 <!-- for statement -->
-<%for (int j = 0; j < goca.size(); j++){ %>
+<%for (int j = 0; j < gopd.size(); j++){ %>
 <% db = gopd.get(j); %>
 <tr>
 <td><%=db.getProname() %></td><td>&yen;<%=db.getProprice() %></td><td><%= times %></td>
