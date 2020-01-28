@@ -5,10 +5,10 @@ import java.util.ArrayList;
 
 public class DetailBean implements Serializable {
 
-	private int procd;
+	private String procd;
 	private String proname;
-	private int proprice;
-	private int stockno;
+	private String proprice;
+	private String stockno;
 	private String image;
 	private String message;
 
@@ -22,10 +22,10 @@ public class DetailBean implements Serializable {
 		this.detail = detail;
 
 	}
-	public int getProcd() {
+	public String getProcd() {
 		return procd;
 	}
-	public void setProcd(int procd) {
+	public void setProcd(String procd) {
 		this.procd = procd;
 	}
 	public String getProname() {
@@ -34,10 +34,10 @@ public class DetailBean implements Serializable {
 	public void setProname(String proname) {
 		this.proname = proname;
 	}
-	public int getProprice() {
+	public String getProprice() {
 		return proprice;
 	}
-	public void setProprice(int proprice) {
+	public void setProprice(String proprice) {
 		this.proprice = proprice;
 	}
 	public String getImage() {
@@ -52,10 +52,10 @@ public class DetailBean implements Serializable {
 	public void setMessage(String message) {
 		this.message = message;
 	}
-	public int getStockno() {
+	public String getStockno() {
 		return stockno;
 	}
-	public void setStockno(int stockno) {
+	public void setStockno(String stockno) {
 		this.stockno = stockno;
 	}
 

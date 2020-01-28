@@ -63,18 +63,13 @@
 <!-- hiddenで非表示にしてprocdをcart Servletに送信 -->
 <input type="hidden" name="procd" value="<%=db.getProcd()%>">
 
-
+<%int quant = Integer.parseInt(db.getStockno()); %>
+個数
 <select name="quantity"><!-- カート画面の数量とつなげる -->
-<option value="1">1</option>
-<option value="2">2</option>
-<option value="3">3</option>
-<option value="4">4</option>
-<option value="5">5</option>
-<option value="6">6</option>
-<option value="7">7</option>
-<option value="8">8</option>
-<option value="9">9</option>
-<option value="10">10</option>
+<%for(int i = 1; i<=quant; i++) {%>
+<option value=<%=i %>><%=i%></option>
+<%} %>
+
 </select>
 
 <input type="submit"name="nextpage"  value="カートへ">

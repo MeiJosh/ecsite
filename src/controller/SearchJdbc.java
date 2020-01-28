@@ -139,9 +139,9 @@ public class SearchJdbc {
 			//	System.out.println(rs.getString("pro_name"));
 
 			//	System.out.println(pbean.getProname());
-				pbean.setProprice(rs.getInt("pro_price"));
+				pbean.setProprice(rs.getString("pro_price"));
 			//	System.out.println(pbean.getProprice());
-				pbean.setProcd(rs.getInt("pro_cd"));
+				pbean.setProcd(rs.getString("pro_cd"));
 			//	System.out.println(pbean.getProcd());
 
 
@@ -214,11 +214,11 @@ public ArrayList<DetailBean> goproduct(String procd){//商品紹介
 			dbean.setProname(rs.getString("pro_name"));
 		//	System.out.println(rs.getString("pro_name"));
 		//	System.out.println(dbean.getProname());
-			dbean.setProprice(rs.getInt("pro_price"));
+			dbean.setProprice(rs.getString("pro_price"));
 		//	System.out.println(dbean.getProprice());
-			dbean.setProcd(rs.getInt("pro_cd"));
+			dbean.setProcd(rs.getString("pro_cd"));
 		//	System.out.println(dbean.getProcd());
-			dbean.setStockno(rs.getInt("stock_no"));
+			dbean.setStockno(rs.getString("stock_no"));
 		//	System.out.println(dbean.getStockno());
 			dbean.setImage(rs.getString("pro_img"));
 		//	System.out.println(dbean.getImage());
@@ -292,7 +292,7 @@ public ArrayList<CartBean> gocart(String procd){//カートの商品名と価格
 //			System.out.println(quant);
 
 			crb.setName(rs.getString("pro_name"));//product
-			crb.setPrice(rs.getString("pro_price"));
+			crb.setPrice(rs.getInt("pro_price"));
 		//	crb.setQuantity(rs.getString(quant));//問題発生
 
 

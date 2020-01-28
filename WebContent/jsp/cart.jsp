@@ -16,10 +16,9 @@
   	String er = (String)session.getAttribute("error");
 
     String quant = (String)session.getAttribute("quantity");
-    int times = Integer.parseInt(quant);
-    double sumtax;
-    double taxrate = 0.1;
-    double totalsum;
+    int total = ((Integer)(session.getAttribute("totalprice"))).intValue();
+    int tax = ((Integer)(session.getAttribute("tax"))).intValue();
+
     %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -43,10 +42,12 @@
 <th>数量</th>
 </tr>
 <!-- for statement -->
-<%for (int j = 0; j < gopd.size(); j++){ %>
-<% db = gopd.get(j); %>
+<%for (int j = 0; j < goca.size(); j++){ %>
+<% calc = goca.get(j); %>
 <tr>
-<td><%=db.getProname() %></td><td>&yen;<%=db.getProprice() %></td><td><%= times %></td>
+<td><%=calc.getName() %></td>
+<td>&yen;<%=calc.getPrice() %></td>
+<td><%=calc.getQuantity() %></td>
 </tr>
 <%} %>
 <!-- end for statement -->
@@ -54,14 +55,12 @@
 
 <tr>
 <td colspan=2 align="center">消費税</td>
-<td><!-- for statement -->&yen;
-<%for (int k =0; k<gopd.size(); k++){%>
-<%=sumtax = ((db.getProprice()) * taxrate) * times%></td></tr>
+<td>&yen;<%=tax%></td></tr>
 <tr>
-<td colspan=2 align="center">合計金額</td><td>&yen;
-<%= totalsum=sumtax+(times*(db.getProprice()))%></td>
+<td colspan=2 align="center">合計金額</td>
+<td>&yen;<%= total%></td>
 </tr>
-<%} %>
+
 </table>
 <br><br>
 <div align="center">

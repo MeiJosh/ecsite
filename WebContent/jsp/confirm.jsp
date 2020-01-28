@@ -53,10 +53,10 @@
 <td colspan=2 align="center">消費税</td>
 <td><!-- for statement -->&yen;
 <%for (int k =0; k<gopd.size(); k++){%>
-<%=sumtax = (db.getProprice()) * taxrate * times%></td></tr>
+<%=sumtax = ((Integer.parseInt(db.getProprice())) * taxrate) * times%></td></tr>
 <tr>
 <td colspan=2 align="center">合計金額</td><td>&yen;
-<%= totalsum=times*(sumtax+(db.getProprice()))%></td>
+<%= totalsum=sumtax+(times*(Integer.parseInt(db.getProprice())))%></td>
 </tr>
 <%} %>
 </table>

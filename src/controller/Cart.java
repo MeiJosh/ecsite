@@ -15,7 +15,7 @@ import javax.servlet.http.HttpSession;
  */
 public class Cart extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-
+	int count = 0;
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
@@ -69,36 +69,64 @@ public class Cart extends HttpServlet {
 			rd4.forward(request, response);
 			return;
 		}else{//もしセッションが切れていなければ
-			//CalsRsBean cart =
 
-			//			for(int count=0; count<4; count++)
 
-//			////			if(count < 0){
-//							ArrayList<CartBean> cartadd = sjdbc.gocart(procd);
-//							CartBean crb2 = new Cart();
-//							crb2 = cartadd.get(0);
-//							System.out.print(crb2.getName()+crb2.getQuantity()+crb2.getPrice()+"出力１が出てる");
-//							session.setAttribute("cartadd", cartadd);
+			//リストの呼び出し
+			ArrayList<DetailBean> dp = sjdbc.goproduct(procd);
 
-			//			}else {
-			////				session.getAttribute("cartadd");
-			////				ArrayList<CalcRsBean> cartadd = sjdbc.gocart(procd);
-			//CalcRsBean crb = new CalcRsBean();//リストを入れたいbean
-			////				DetailBean dbean = new DetailBean();//リストの要素を呼ぶbean
-			////				dbean.getProname();//product
-			////				dbean.getProprice();
-			//crb.setQuantity(quant);
-			////
-			//				cartadd.add(crb);//上3行をリストに入れたい
-			//				System.out.print(cartadd.get(0)+"出力2が出てる");//数量はリストに入ってる
-			//				session.setAttribute("cartadd", cartadd);
-			//}
+			ArrayList<CartBean> cartadd = new ArrayList<CartBean>();
+			System.out.println("countは"+count);
+			if(count >=1){
 
-			//getParameterでもらった数量をカートに送る
-			session.setAttribute("quantity", quant);
-			System.out.println("数量:"+quant+"の表示しようとしてる");//ここまでok
-			//						RequestDispatcher rd = request.getRequestDispatcher("jsp/cart.jsp");
-			//						rd.forward(request, response);//can jump to cart jsp ok
+			//.gocart(procd);
+			CartBean crb = new CartBean();
+			cartadd =(ArrayList<CartBean>)session.getAttribute("cartadd");
+			}
+			count++;//sessionのカウントを1増やす
+			DetailBean dbean = new DetailBean();//リストの要素を呼ぶbean
+			dbean = dp.get(0);//0番目の要素
+			int Price = Integer.parseInt(dbean.getProprice());
+
+			//カート画面に必要なデータをリストに格納する
+			CartBean cb = new CartBean();
+			cb.setCd(dbean.getProcd());
+			cb.setName(dbean.getProname());
+			cb.setPrice(Price);//要素を入れる
+			cb.setQuantity(quant);
+
+			cartadd.add(cb);
+
+			int total=0;
+
+			for (int i = 0; i <cartadd.size(); i++) {
+				CartBean CBcalc = new CartBean();
+				CBcalc = cartadd.get(i);
+
+				int calcPrice = CBcalc.getPrice();
+				int calcQuant = Integer.parseInt(CBcalc.getQuantity());
+				int priceA = calcPrice * calcQuant;
+				total = priceA + total;
+			}
+
+			int tax = (int)(total*0.1);
+			//System.out.print(crb2.getName()+crb2.getQuantity()+crb2.getPrice()+"出力１が出てる");
+			session.setAttribute("cartadd", cartadd);
+			session.setAttribute("total", total);
+			session.setAttribute("tax",tax);
+
+			int totalprice = total + tax;
+			session.setAttribute("totalprice", totalprice);
+
+
+
+
+
+
+//			//getParameterでもらった数量をカートに送る
+//			session.setAttribute("quantity", quant);
+//			System.out.println("数量:"+quant+"の表示しようとしてる");//ここまでok
+//			//						RequestDispatcher rd = request.getRequestDispatcher("jsp/cart.jsp");
+//			//						rd.forward(request, response);//can jump to cart jsp ok
 
 			if(nxact.equals("戻る")) {//戻るであれば
 				RequestDispatcher rd3 = request.getRequestDispatcher("/jsp/search.jsp");
@@ -108,13 +136,7 @@ public class Cart extends HttpServlet {
 			}else {//カートへであれば
 				RequestDispatcher rd2 = request.getRequestDispatcher("jsp/cart.jsp");
 				rd2.forward(request, response);//can jump to cart jsp ok
-				//
-				//				if(addcart == null) {
-				//					addcart.add(quant);
-				//					addcart.addAll(sjdbc.gocart(procd));//リストにaddして
-				//					System.out.println(addcart.get(0));
-				//					session.setAttribute("addcart", addcart);//sessionに送った
-				//				}
+
 
 			}//if addcart end
 

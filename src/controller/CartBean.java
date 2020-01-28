@@ -5,19 +5,19 @@ import java.io.Serializable;
 public class CartBean implements Serializable {
 	private String name;
 	private int price;
-	private int quantity;
-	private int cd;
+	private String quantity;
+	private String cd;
 
-	public int getQuantity() {
+	public String getQuantity() {
 		return quantity;
 	}
-	public void setQuantity(int quantity) {
+	public void setQuantity(String quantity) {
 		this.quantity = quantity;
 	}
-	public int getCd() {
+	public String getCd() {
 		return cd;
 	}
-	public void setCd(int cd) {
+	public void setCd(String cd) {
 		this.cd = cd;
 	}
 	public String getName() {

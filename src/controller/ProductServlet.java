@@ -30,7 +30,7 @@ int count = 0;
 
 
 		String procd = request.getParameter("productcode");
-
+		String quant = request.getParameter("quantity");
 		//requestでpro_cdを受け取る
 		//System.out.println(procd+"を受け取った");
 
@@ -61,32 +61,34 @@ int count = 0;
 
 
 					sjdbc.goproduct(procd);//使用するメソッドを呼ぶ
-					//DetailBean db = new DetailBean();
+					DetailBean db = new DetailBean();
 					//リストの呼び出し
 					ArrayList<DetailBean> dp = sjdbc.goproduct(procd);
 
-					ArrayList<CartBean> cartadd = new ArrayList<CartBean>();
-					System.out.println(count);
-					if(count < 0){
-
-					//.gocart(procd);
-					CartBean crb = new CartBean();
-					cartadd =(ArrayList<CartBean>)session.getAttribute("cartadd");
-					}
-					count++;//sessionのカウントを1増やす
-					DetailBean dbean = new DetailBean();//リストの要素を呼ぶbean
-					dbean = dp.get(0);//0番目の要素
-					int Price = dbean.getProprice();
-
-					//カート画面に必要なデータをリストに格納する
-					CartBean cb = new CartBean();
-					cb.setCd(dbean.getProcd());
-					cb.setName(dbean.getProname());
-					cb.setPrice(Price);//要素を入れる
-					cb.setQuantity(quantity);
-					crb2 = cartadd.get(0);
-					System.out.print(crb2.getName()+crb2.getQuantity()+crb2.getPrice()+"出力１が出てる");
-					session.setAttribute("cartadd", cartadd);
+//					ArrayList<CartBean> cartadd = new ArrayList<CartBean>();
+//					System.out.println(count);
+//					if(count < 0){
+//
+//					//.gocart(procd);
+//					CartBean crb = new CartBean();
+//					cartadd =(ArrayList<CartBean>)session.getAttribute("cartadd");
+//					}
+//					count++;//sessionのカウントを1増やす
+//					DetailBean dbean = new DetailBean();//リストの要素を呼ぶbean
+//					dbean = dp.get(0);//0番目の要素
+//					String Price = dbean.getProprice();
+//
+//					//カート画面に必要なデータをリストに格納する
+//					CartBean cb = new CartBean();
+//					cb.setCd(dbean.getProcd());
+//					cb.setName(dbean.getProname());
+//					cb.setPrice(Price);//要素を入れる
+//					cb.setQuantity(quant);
+//
+//					cartadd.add(cb);
+//
+//					//System.out.print(crb2.getName()+crb2.getQuantity()+crb2.getPrice()+"出力１が出てる");
+//					session.setAttribute("cartadd", cartadd);
 
 					session.setAttribute("detail", dp);
 					RequestDispatcher rd = request.getRequestDispatcher("jsp/product.jsp");
